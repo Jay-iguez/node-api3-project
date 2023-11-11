@@ -29,15 +29,30 @@ async function validateUserId(req, res, next) {
 
 }
 
-function validateUser(req, res, next) {
+async function validateUser(req, res, next) {
   // DO YOUR MAGIC
+  try {
+    const { name } = req.body
+    if (name && typeof name === 'string'){
+      next()
+    } else {
+      res.status(400).json({
+        message: 'missing required name field'
+      })
+    }
+  } catch(error) {
+    res.status(500).json({
+      message: 'Error in validating user body.'
+    })
+  }
 }
 
 function validatePost(req, res, next) {
   // DO YOUR MAGIC
+
 }
 
 // do not forget to expose these functions to other modules
 module.exports = {
-  logger, validateUserId
+  logger, validateUserId, validateUser
 }
